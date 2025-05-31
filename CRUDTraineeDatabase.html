@@ -2191,7 +2191,7 @@ function setupViewToggle() {
       }
     }
 
-    allTrainees = data;
+    allTrainees = data.reverse();
     filteredTrainees = [...allTrainees];
     renderTraineeCards(filteredTrainees);
     renderTraineeTable(filteredTrainees);
