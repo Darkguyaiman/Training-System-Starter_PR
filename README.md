@@ -240,8 +240,6 @@ Training-System/
 
 <div align="center">
 
-### Development Team
-
 <div align="center">
   <table>
     <tr>
