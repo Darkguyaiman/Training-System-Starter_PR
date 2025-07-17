@@ -275,7 +275,7 @@
     </div>
 
     <script>
-        // Modal System
+
         const modal = {
             backdrop: document.getElementById('modalBackdrop'),
             container: document.getElementById('modalContainer'),
@@ -285,12 +285,11 @@
             closeBtn: document.getElementById('modalCloseBtn'),
             
             show: function(options) {
-                // Set modal content
+
                 this.title.textContent = options.title || '';
                 this.body.innerHTML = options.body || '';
                 this.footer.innerHTML = '';
-                
-                // Set modal type styling
+
                 this.container.classList.remove('border-blue-500', 'border-red-500', 'border-green-500');
                 this.title.classList.remove('text-blue-500', 'text-red-500', 'text-green-500');
                 
@@ -304,8 +303,7 @@
                     this.container.classList.add('border-l-4', 'border-blue-500');
                     this.title.classList.add('text-blue-500');
                 }
-                
-                // Add buttons
+           
                 if (options.buttons && Array.isArray(options.buttons)) {
                     options.buttons.forEach(button => {
                         const btn = document.createElement('button');
@@ -326,23 +324,19 @@
                         this.footer.appendChild(btn);
                     });
                 } else {
-                    // Default OK button
+
                     const okBtn = document.createElement('button');
                     okBtn.textContent = 'OK';
                     okBtn.className = 'px-4 py-2 bg-blue text-white rounded-md hover:bg-purple';
                     okBtn.addEventListener('click', () => this.hide());
                     this.footer.appendChild(okBtn);
                 }
-                
-                // Show modal
+
                 this.backdrop.classList.remove('hidden');
                 this.backdrop.classList.add('backdrop-enter');
                 this.container.classList.add('modal-enter');
-                
-                // Add close button event
+
                 this.closeBtn.addEventListener('click', () => this.hide());
-                
-                // Add escape key listener
                 document.addEventListener('keydown', this.escapeHandler);
             },
             
@@ -351,11 +345,9 @@
                 this.container.classList.add('modal-leave');
                 this.backdrop.classList.remove('backdrop-enter');
                 this.backdrop.classList.add('backdrop-leave');
-                
-                // Remove escape key listener
+
                 document.removeEventListener('keydown', this.escapeHandler);
-                
-                // Hide after animation completes
+
                 setTimeout(() => {
                     this.backdrop.classList.add('hidden');
                     this.backdrop.classList.remove('backdrop-leave');
@@ -369,11 +361,9 @@
                 }
             }
         };
-        
-        // Initialize close button
+
         modal.closeBtn.addEventListener('click', () => modal.hide());
-        
-        // Form Validation Functions
+
         function validateHealthcareCentres() {
             const checkboxes = document.querySelectorAll('#healthcareCentres input[type="checkbox"]');
             const errorElement = document.getElementById('healthcareCentresError');
@@ -389,8 +379,7 @@
             errorElement.classList.toggle('hidden', isValid);
             return isValid;
         }
-        
-        // Removed: function validateDeviceSerialNumbers() { ... }
+
         
         function validateTrainingType() {
             const trainingType = document.getElementById('trainingType');
@@ -418,13 +407,13 @@
         function validateForm() {
             const isHealthcareCentresValid = validateHealthcareCentres();
             const isParticipatingTraineesValid = validateParticipatingTrainees();
-            // Removed: const isDeviceSerialNumbersValid = validateDeviceSerialNumbers();
+
             const isTrainingTypeValid = validateTrainingType();
             const areDatesValid = validateDates();
             
             return isHealthcareCentresValid && 
                    isParticipatingTraineesValid && 
-                   /* isDeviceSerialNumbersValid && */ // This line is commented out/removed
+                   /* isDeviceSerialNumbersValid && */ 
                    isTrainingTypeValid &&
                    areDatesValid;
         }
@@ -493,9 +482,7 @@
                 if (fieldId === 'healthcareCentres') {
                     checkbox.addEventListener('change', validateHealthcareCentres);
                 } 
-                // Removed: else if (fieldId === 'deviceSerialNumbers') {
-                // Removed:     checkbox.addEventListener('change', validateDeviceSerialNumbers);
-                // Removed: }
+
 
                 var label = document.createElement('label');
                 label.htmlFor = checkbox.id;
@@ -525,8 +512,7 @@
                     });
                     return;
                 }
-                
-                // Check if serial number already exists
+
                 const existingCheckboxes = container.querySelectorAll('input[type="checkbox"]');
                 for (let i = 0; i < existingCheckboxes.length; i++) {
                     if (existingCheckboxes[i].value === serialNumber) {
@@ -538,8 +524,7 @@
                         return;
                     }
                 }
-                
-                // Create new checkbox for custom serial number
+
                 const div = document.createElement('div');
                 div.className = 'flex items-center py-1';
                 
@@ -549,22 +534,21 @@
                 checkbox.name = 'deviceSerialNumbers[]';
                 checkbox.value = serialNumber;
                 checkbox.className = 'h-5 w-5 text-orange focus:ring-orange border-gray-300 rounded';
-                checkbox.checked = true; // Auto-check the newly added serial number
-                // Removed: checkbox.addEventListener('change', validateDeviceSerialNumbers);
+                checkbox.checked = true; 
+
                 
                 const label = document.createElement('label');
                 label.htmlFor = checkbox.id;
                 label.appendChild(document.createTextNode(serialNumber + ' (custom)'));
                 label.className = 'ml-2 block text-sm text-gray-900';
-                
-                // Add delete button
+
                 const deleteBtn = document.createElement('button');
                 deleteBtn.type = 'button';
                 deleteBtn.className = 'ml-auto text-red-500 hover:text-red-700';
                 deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
                 deleteBtn.addEventListener('click', function() {
                     div.remove();
-                    // Removed: validateDeviceSerialNumbers();
+
                 });
                 
                 div.appendChild(checkbox);
@@ -572,11 +556,10 @@
                 div.appendChild(deleteBtn);
                 
                 container.appendChild(div);
-                input.value = ''; // Clear input
-                // Removed: validateDeviceSerialNumbers();
+                input.value = ''; 
+        
             });
-            
-            // Allow pressing Enter to add serial number
+
             input.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
@@ -590,16 +573,15 @@
             container.innerHTML = '';
             
             trainees.forEach(function(trainee, index) {
-                // Create a card-like element for each trainee
+       
                 var card = document.createElement('div');
                 card.className = 'trainee-card border rounded-md p-3 relative';
-                
-                // Create checkbox for selection
+
                 var checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 checkbox.id = 'participatingTrainees_' + index;
                 checkbox.name = 'participatingTrainees[]';
-                // Store all trainee data as a JSON string in the value
+
                 checkbox.value = JSON.stringify({
                     name: trainee.name,
                     icPassport: trainee.icPassport,
@@ -611,36 +593,31 @@
                     card.classList.toggle('selected', this.checked);
                     validateParticipatingTrainees();
                 });
-                
-                // Create trainee info content
+        
                 var content = document.createElement('div');
-                content.className = 'pr-8'; // Add padding to make room for checkbox
-                
-                // Name with icon
+                content.className = 'pr-8'; 
+
                 var nameDiv = document.createElement('div');
                 nameDiv.className = 'font-medium text-gray-900 flex items-center';
                 var nameIcon = document.createElement('i');
                 nameIcon.className = 'fas fa-user text-purple mr-2 text-sm';
                 nameDiv.appendChild(nameIcon);
                 nameDiv.appendChild(document.createTextNode(trainee.name));
-                
-                // ID with icon
+  
                 var idDiv = document.createElement('div');
                 idDiv.className = 'text-sm text-gray-600 mt-1 flex items-center';
                 var idIcon = document.createElement('i');
                 idIcon.className = 'fas fa-id-card text-blue mr-2 text-xs';
                 idDiv.appendChild(idIcon);
                 idDiv.appendChild(document.createTextNode('ID: ' + trainee.id));
-                
-                // IC/Passport with icon
+
                 var icDiv = document.createElement('div');
                 icDiv.className = 'text-sm text-gray-600 mt-1 flex items-center';
                 var icIcon = document.createElement('i');
                 icIcon.className = 'fas fa-passport text-blue mr-2 text-xs';
                 icDiv.appendChild(icIcon);
                 icDiv.appendChild(document.createTextNode('IC/Passport: ' + trainee.icPassport));
-                
-                // Healthcare with icon (if available)
+
                 if (trainee.healthcare) {
                     var healthcareDiv = document.createElement('div');
                     healthcareDiv.className = 'text-sm text-gray-600 mt-1 flex items-center';
@@ -650,17 +627,13 @@
                     healthcareDiv.appendChild(document.createTextNode('Healthcare: ' + trainee.healthcare));
                     content.appendChild(healthcareDiv);
                 }
-                
-                // Add all elements to the content div
+
                 content.appendChild(nameDiv);
                 content.appendChild(idDiv);
                 content.appendChild(icDiv);
-                
-                // Add content and checkbox to the card
                 card.appendChild(content);
                 card.appendChild(checkbox);
-                
-                // Make the entire card clickable to toggle the checkbox
+
                 card.addEventListener('click', function(e) {
                     if (e.target !== checkbox) {
                         checkbox.checked = !checkbox.checked;
@@ -669,7 +642,7 @@
                     }
                 });
                 
-                // Add the card to the container
+       
                 container.appendChild(card);
             });
         }
@@ -711,11 +684,10 @@
               }
           });
         }
-        
-        // Add validation to training type select
+
         document.getElementById('trainingType').addEventListener('change', validateTrainingType);
         
-        // Add validation to date fields
+
         document.getElementById('startDate').addEventListener('change', validateDates);
         document.getElementById('endDate').addEventListener('change', validateDates);
                 
@@ -723,8 +695,7 @@
             e.preventDefault();
             
             if (isSubmitting) return;
-            
-            // Validate all form fields
+
             if (!validateForm()) {
                 modal.show({
                     title: 'Form Validation Error',
@@ -738,8 +709,7 @@
             var submitButton = document.getElementById('submitButton');
             submitButton.disabled = true;
             submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Submitting...';
-            
-            // Process trainee data from JSON back to the format expected by the server
+
             var selectedTrainees = getCheckedTrainees();
             
             var formData = {
@@ -768,38 +738,33 @@
                                     text: 'OK',
                                     class: 'px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600',
                                     onClick: function() {
-                                        // Reset form
+
                                         document.getElementById('trainingForm').reset();
-                                        
-                                        // Reset error messages
+
                                         document.getElementById('healthcareCentresError').classList.add('hidden');
                                         document.getElementById('participatingTraineesError').classList.add('hidden');
-                                        // Removed: document.getElementById('deviceSerialNumbersError').classList.add('hidden');
+
                                         document.getElementById('trainingTypeError').classList.add('hidden');
                                         document.getElementById('startDateError').classList.add('hidden');
                                         document.getElementById('endDateError').classList.add('hidden');
-                                        
-                                        // Reset trainee card selections
+               
                                         var traineeCards = document.getElementsByClassName('trainee-card');
                                         for (var i = 0; i < traineeCards.length; i++) {
                                             traineeCards[i].classList.remove('selected');
                                         }
-                                        
-                                        // Reset checkboxes
+
                                         var checkboxes = document.querySelectorAll('input[type="checkbox"]');
                                         checkboxes.forEach(function(checkbox) {
                                             checkbox.checked = false;
                                         });
-                                        
-                                        // Clear custom serial numbers
+
                                         var customSerialNumbers = document.querySelectorAll('#deviceSerialNumbers div');
                                         customSerialNumbers.forEach(function(div) {
                                             if (div.querySelector('label').textContent.includes('(custom)')) {
                                                 div.remove();
                                             }
                                         });
-                                        
-                                        // Refresh trainer name
+       
                                         google.script.run
                                             .withSuccessHandler(function(trainerName) {
                                                 document.getElementById('trainer').value = trainerName;
@@ -852,7 +817,7 @@
             for (var i = 0; i < checkboxes.length; i++) {
                 if (checkboxes[i].checked) {
                     var traineeData = JSON.parse(checkboxes[i].value);
-                    // Format the trainee data as expected by the server
+
                     selectedTrainees.push(
                         traineeData.name + ' - ' + 
                         traineeData.icPassport + ' - ' + 
