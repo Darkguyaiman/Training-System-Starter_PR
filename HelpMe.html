@@ -1,0 +1,2844 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center - Laser Training System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+      /* Base Styles */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      
+      body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background: linear-gradient(to bottom right, #573FD7, #11358B);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #333;
+        padding: 20px;
+        overflow-x: hidden;
+      }
+      
+      /* Container */
+      .container {
+        width: 95%;
+        max-width: 1400px;
+        min-height: 95vh;
+        background-color: #EAEAEA;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        overflow-y: auto;
+        position: relative;
+        animation: fadeIn 0.6s ease-out;
+      }
+      
+      /* Animations */
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      
+      @keyframes slideIn {
+        from { transform: translateX(-30px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.02); }
+        100% { transform: scale(1); }
+      }
+      
+      @keyframes glow {
+        0% { box-shadow: 0 0 5px rgba(87, 63, 215, 0.5); }
+        50% { box-shadow: 0 0 20px rgba(87, 63, 215, 0.8); }
+        100% { box-shadow: 0 0 5px rgba(87, 63, 215, 0.5); }
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      /* Typography */
+      h1 {
+        color: #11358B;
+        text-align: center;
+        font-size: 32px;
+        margin-bottom: 30px;
+        position: relative;
+        padding-bottom: 15px;
+        animation: fadeIn 0.8s ease-out;
+      }
+      
+      h1:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 4px;
+        background: linear-gradient(to right, #573FD7, #E48F24);
+        border-radius: 2px;
+      }
+      
+      h2 {
+        color: #573FD7;
+        font-size: 24px;
+        margin-top: 25px;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #E48F24;
+        padding-bottom: 10px;
+        animation: slideIn 0.5s ease-out;
+      }
+      
+      h3 {
+        color: #11358B;
+        font-size: 20px;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        animation: slideIn 0.5s ease-out;
+      }
+      
+      h4 {
+        color: #573FD7;
+        font-size: 18px;
+        margin-top: 15px;
+        margin-bottom: 10px;
+      }
+      
+      /* Main Tab Navigation */
+      .main-tabs {
+        display: flex;
+        margin-bottom: 30px;
+        border-radius: 12px;
+        overflow: hidden;
+        background-color: #fff;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        position: relative;
+      }
+      
+      .main-tab {
+        flex: 1;
+        padding: 18px 15px;
+        text-align: center;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        border-bottom: 3px solid transparent;
+        position: relative;
+        z-index: 1;
+        font-size: 16px;
+      }
+      
+      .main-tab.active {
+        color: #573FD7;
+        background-color: #f8f9ff;
+      }
+      
+      .main-tab-indicator {
+        position: absolute;
+        bottom: 0;
+        height: 3px;
+        background-color: #E48F24;
+        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+      
+      .main-tab:hover:not(.active) {
+        background-color: #f9f9f9;
+        color: #11358B;
+      }
+      
+      .main-tab-content {
+        display: none;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+      
+      .main-tab-content.active {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+        animation: fadeIn 0.5s ease-out;
+      }
+      
+      /* Sub Tab Navigation */
+      .sub-tabs {
+        display: flex;
+        margin-bottom: 25px;
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: #fff;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        position: relative;
+      }
+      
+      .sub-tab {
+        flex: 1;
+        padding: 12px 10px;
+        text-align: center;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border-bottom: 2px solid transparent;
+        position: relative;
+        z-index: 1;
+        font-size: 14px;
+      }
+      
+      .sub-tab.active {
+        color: #11358B;
+        background-color: #f0f4ff;
+      }
+      
+      .sub-tab-indicator {
+        position: absolute;
+        bottom: 0;
+        height: 2px;
+        background-color: #573FD7;
+        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+      
+      .sub-tab:hover:not(.active) {
+        background-color: #f5f5f5;
+        color: #573FD7;
+      }
+      
+      .sub-tab-content {
+        display: none;
+        opacity: 0;
+        transform: translateY(15px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+      }
+      
+      .sub-tab-content.active {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+        animation: fadeIn 0.4s ease-out;
+      }
+      
+      /* Content Sections */
+      .content-section {
+        background-color: #fff;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        margin-bottom: 20px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        scroll-margin-top: 100px;
+      }
+      
+      .content-section:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+      }
+      
+      .content-section.search-highlight {
+        animation: pulse 2s;
+        border: 2px solid #E48F24;
+        box-shadow: 0 0 20px rgba(228, 143, 36, 0.3);
+      }
+      
+      /* Category sections for grading */
+      .category-section {
+        margin-bottom: 40px;
+        padding: 25px;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        animation: fadeIn 0.8s ease-out;
+        scroll-margin-top: 100px;
+      }
+      
+      .category-section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+      }
+      
+      .category-section.search-highlight {
+        animation: pulse 2s;
+        border: 2px solid #E48F24;
+        box-shadow: 0 0 20px rgba(228, 143, 36, 0.3);
+      }
+      
+      .category-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      
+      .category-icon {
+        margin-right: 15px;
+        color: #573FD7;
+        font-size: 28px;
+        transition: transform 0.3s ease;
+      }
+      
+      .category-section:hover .category-icon {
+        transform: scale(1.2);
+      }
+      
+      /* Collapsible Steps */
+      .collapsible-steps {
+        margin: 20px 0;
+      }
+      
+      .steps-header {
+        background-color: #f8f9ff;
+        padding: 15px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: all 0.3s ease;
+        border: 1px solid #e0e6ff;
+        margin-bottom: 10px;
+      }
+      
+      .steps-header:hover {
+        background-color: #f0f4ff;
+        border-color: #573FD7;
+      }
+      
+      .steps-header.active {
+        background-color: #573FD7;
+        color: white;
+        border-color: #573FD7;
+      }
+      
+      .steps-title {
+        font-weight: bold;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      
+      .steps-toggle {
+        transition: transform 0.3s ease;
+        font-size: 14px;
+      }
+      
+      .steps-header.active .steps-toggle {
+        transform: rotate(180deg);
+      }
+      
+      .steps-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease, padding 0.4s ease;
+        background-color: #fff;
+        border-radius: 0 0 8px 8px;
+        border: 1px solid #e0e6ff;
+        border-top: none;
+      }
+      
+      .steps-content.active {
+        max-height: 1000px;
+        padding: 20px;
+      }
+      
+      /* Video Container with Lazy Loading */
+      .video-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        margin: 20px 0;
+        border-radius: 12px;
+        background-color: rgba(0, 0, 0, 0.05);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      
+      .video-container:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+      }
+      
+      .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 12px;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+      
+      .video-container iframe.loaded {
+        opacity: 1;
+      }
+      
+      .video-placeholder {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        border-radius: 12px;
+        color: #666;
+        font-size: 16px;
+        border: 2px dashed #ccc;
+        transition: opacity 0.5s ease;
+      }
+      
+      .video-placeholder.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      
+      .video-loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+      }
+      
+      .video-loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #573FD7;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      .video-play-button {
+        background-color: #573FD7;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 10px;
+      }
+      
+      .video-play-button:hover {
+        background-color: #E48F24;
+        transform: scale(1.1);
+      }
+      
+      /* Manual Content */
+      .manual-content {
+        line-height: 1.6;
+        color: #444;
+      }
+      
+      .manual-content p {
+        margin-bottom: 15px;
+      }
+      
+      .manual-content ul {
+        margin: 15px 0;
+        padding-left: 25px;
+      }
+      
+      .manual-content li {
+        margin-bottom: 8px;
+      }
+      
+      .manual-content strong {
+        color: #573FD7;
+      }
+      
+      /* Feature Lists */
+      .feature-list {
+        background-color: #f8f9ff;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+        border-left: 4px solid #573FD7;
+      }
+      
+      .feature-list ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+      
+      .feature-list li {
+        margin-bottom: 8px;
+        color: #555;
+      }
+      
+      /* Step Lists */
+      .step-list {
+        counter-reset: step-counter;
+        list-style: none;
+        padding: 0;
+        margin: 20px 0;
+      }
+      
+      .step-list li {
+        counter-increment: step-counter;
+        margin-bottom: 15px;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        border-left: 4px solid #E48F24;
+        position: relative;
+        padding-left: 50px;
+      }
+      
+      .step-list li::before {
+        content: counter(step-counter);
+        position: absolute;
+        left: 15px;
+        top: 15px;
+        background-color: #E48F24;
+        color: white;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 12px;
+      }
+      
+      /* Search Bar (In-page version) */
+      .search-container {
+        position: relative;
+        margin-bottom: 25px;
+      }
+      
+      .search-input {
+        width: 100%;
+        padding: 15px 20px 15px 50px;
+        border: 1px solid #ddd;
+        border-radius: 50px;
+        font-size: 16px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+      }
+      
+      .search-input:focus {
+        outline: none;
+        border-color: #573FD7;
+        box-shadow: 0 5px 20px rgba(87, 63, 215, 0.2);
+      }
+      
+      .search-icon {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #888;
+        transition: color 0.3s ease;
+      }
+      
+      .search-input:focus + .search-icon {
+        color: #573FD7;
+      }
+      
+      .search-shortcut {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #f0f0f0;
+        color: #666;
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      
+      .search-input:focus ~ .search-shortcut {
+        background-color: #573FD7;
+        color: white;
+      }
+      
+      .search-shortcut:hover {
+        background-color: #573FD7;
+        color: white;
+      }
+      
+      /* Search Results Dropdown */
+      .search-results-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        max-height: 400px;
+        overflow-y: auto;
+        z-index: 100;
+        display: none;
+        margin-top: 5px;
+      }
+      
+      .search-results-dropdown.active {
+        display: block;
+        animation: fadeIn 0.3s ease-out;
+      }
+      
+      .search-result-item {
+        padding: 15px 20px;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+      
+      .search-result-item:hover {
+        background-color: #f8f9ff;
+      }
+      
+      .search-result-item:last-child {
+        border-bottom: none;
+      }
+      
+      .search-result-title {
+        font-weight: bold;
+        color: #573FD7;
+        margin-bottom: 5px;
+      }
+      
+      .search-result-context {
+        font-size: 14px;
+        color: #666;
+      }
+      
+      /* Popup Search Modal */
+      .search-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        backdrop-filter: blur(5px);
+      }
+      
+      .search-modal.active {
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .search-modal-content {
+        width: 90%;
+        max-width: 800px;
+        background-color: white;
+        border-radius: 16px;
+        padding: 30px;
+        margin-top: 80px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        transform: translateY(-50px);
+        opacity: 0;
+        transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.5s ease;
+        max-height: 80vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .search-modal.active .search-modal-content {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      
+      .search-modal-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-shrink: 0;
+      }
+      
+      .search-modal-input-container {
+        position: relative;
+        flex: 1;
+      }
+      
+      .search-modal-input {
+        width: 100%;
+        padding: 15px 20px 15px 50px;
+        border: 2px solid #573FD7;
+        border-radius: 50px;
+        font-size: 18px;
+        background-color: #f9f9f9;
+        transition: all 0.3s ease;
+      }
+      
+      .search-modal-input:focus {
+        outline: none;
+        background-color: white;
+        box-shadow: 0 0 15px rgba(87, 63, 215, 0.3);
+      }
+      
+      .search-modal-icon {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #573FD7;
+        font-size: 20px;
+      }
+      
+      .search-modal-close {
+        background-color: #f0f0f0;
+        color: #333;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      .search-modal-close:hover {
+        background-color: #E48F24;
+        color: white;
+        transform: rotate(90deg);
+      }
+      
+      .search-modal-results {
+        flex: 1;
+        overflow-y: auto;
+        padding: 10px 0;
+      }
+      
+      .search-modal-result-count {
+        color: #666;
+        margin-bottom: 15px;
+        font-style: italic;
+        flex-shrink: 0;
+      }
+      
+      .search-modal-result-item {
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        background-color: #f9f9f9;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        animation: fadeIn 0.5s ease-out;
+      }
+      
+      .search-modal-result-item:hover {
+        background-color: #f0f0f0;
+        transform: translateX(5px);
+      }
+      
+      .search-modal-result-title {
+        color: #573FD7;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      
+      .search-modal-result-context {
+        color: #555;
+        font-size: 14px;
+      }
+      
+      /* Highlight search results */
+      .highlight {
+        background-color: rgba(255, 235, 59, 0.7);
+        padding: 2px 4px;
+        border-radius: 3px;
+        font-weight: bold;
+        box-shadow: 0 0 0 2px rgba(255, 235, 59, 0.3);
+      }
+      
+      /* Improved Table Styles */
+      .table-container {
+        width: 100%;
+        overflow-x: auto;
+        margin: 25px 0;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+      }
+      
+      table {
+        width: 100%;
+        min-width: 600px;
+        border-collapse: collapse;
+        background-color: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        animation: fadeIn 0.8s ease-out;
+      }
+      
+      th {
+        background-color: #3A3F58;
+        color: white;
+        padding: 15px 12px;
+        text-align: left;
+        font-size: 14px;
+        font-weight: 600;
+        white-space: nowrap;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      
+      td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        transition: background-color 0.3s ease;
+        vertical-align: top;
+        font-size: 14px;
+        line-height: 1.4;
+      }
+      
+      tr:last-child td {
+        border-bottom: none;
+      }
+      
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+      
+      tr:hover td {
+        background-color: #f0f4ff;
+      }
+      
+      /* Scoring bands */
+      .score-band {
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-weight: bold;
+        display: inline-block;
+        min-width: 120px;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+      
+      .score-band:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .score-outstanding {
+        background-color: #2C3E50;
+        color: white;
+        border-left: 4px solid #3498DB;
+      }
+      
+      .score-above-average {
+        background-color: #34495E;
+        color: white;
+        border-left: 4px solid #2ECC71;
+      }
+      
+      .score-average {
+        background-color: #7F8C8D;
+        color: white;
+        border-left: 4px solid #F1C40F;
+      }
+      
+      .score-below-average {
+        background-color: #95A5A6;
+        color: white;
+        border-left: 4px solid #E67E22;
+      }
+      
+      .score-needs-improvement {
+        background-color: #BDC3C7;
+        color: #2C3E50;
+        border-left: 4px solid #E74C3C;
+      }
+      
+      /* WhatsApp Button */
+      .whatsapp-button-container {
+        display: flex;
+        justify-content: center;
+        margin: 30px 0;
+      }
+      
+      .whatsapp-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background-color: #E48F24;
+        color: white;
+        padding: 15px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .whatsapp-button:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: all 0.6s ease;
+      }
+      
+      .whatsapp-button:hover {
+        background-color: #128C7E;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+      
+      .whatsapp-button:hover:before {
+        left: 100%;
+      }
+      
+      /* Footer */
+      .footer {
+        text-align: center;
+        margin-top: 40px;
+        color: #555;
+        font-size: 14px;
+        padding: 20px;
+        border-top: 1px solid #ddd;
+        animation: fadeIn 1s ease-out;
+      }
+      
+      /* No results message */
+      .no-results {
+        text-align: center;
+        padding: 40px;
+        background-color: #f9f9f9;
+        border-radius: 12px;
+        color: #666;
+        font-style: italic;
+        margin: 30px 0;
+        animation: fadeIn 0.8s ease-out;
+      }
+      
+      .no-results i {
+        font-size: 40px;
+        color: #ccc;
+        margin-bottom: 15px;
+        display: block;
+      }
+      
+      /* Mobile Responsiveness */
+      @media (max-width: 992px) {
+        .container {
+          width: 95%;
+          padding: 25px;
+          min-height: 90vh;
+        }
+        
+        h1 {
+          font-size: 28px;
+        }
+        
+        .main-tab, .sub-tab {
+          font-size: 14px;
+          padding: 12px 8px;
+        }
+        
+        .search-modal-content {
+          width: 95%;
+          padding: 20px;
+        }
+        
+        th, td {
+          padding: 8px 6px;
+          font-size: 12px;
+        }
+        
+        .score-band {
+          min-width: 100px;
+          font-size: 11px;
+        }
+      }
+      
+      @media (max-width: 768px) {
+        .container {
+          padding: 20px;
+          min-height: 85vh;
+          width: 98%;
+        }
+        
+        h1 {
+          font-size: 24px;
+        }
+        
+        .main-tabs {
+          flex-direction: column;
+        }
+        
+        .main-tab {
+          padding: 15px;
+          border-bottom: 1px solid #eee;
+        }
+        
+        .main-tab:last-child {
+          border-bottom: none;
+        }
+        
+        .sub-tabs {
+          flex-wrap: wrap;
+        }
+        
+        .sub-tab {
+          flex: 1 1 50%;
+          min-width: 120px;
+          font-size: 12px;
+          padding: 10px 5px;
+        }
+        
+        .content-section {
+          padding: 20px;
+        }
+        
+        /* Mobile table styles */
+        .table-container {
+          font-size: 12px;
+        }
+        
+        table {
+          min-width: 500px;
+        }
+        
+        th, td {
+          padding: 6px 4px;
+          font-size: 11px;
+        }
+        
+        .score-band {
+          min-width: 80px;
+          font-size: 10px;
+          padding: 4px 8px;
+        }
+      }
+      
+      @media (max-width: 480px) {
+        .container {
+          padding: 15px;
+          width: 100%;
+          border-radius: 12px;
+        }
+        
+        h1 {
+          font-size: 22px;
+        }
+        
+        h2 {
+          font-size: 20px;
+        }
+        
+        h3 {
+          font-size: 18px;
+        }
+        
+        .search-shortcut {
+          display: none;
+        }
+        
+        .sub-tab {
+          flex: 1 1 100%;
+          font-size: 13px;
+        }
+        
+        .content-section {
+          padding: 15px;
+        }
+        
+        .whatsapp-button {
+          padding: 12px 20px;
+          font-size: 14px;
+        }
+        
+        .table-container {
+          margin: 15px -15px;
+          border-radius: 0;
+        }
+        
+        table {
+          min-width: 400px;
+        }
+        
+        th, td {
+          padding: 4px 3px;
+          font-size: 10px;
+        }
+        
+        .score-band {
+          min-width: 70px;
+          font-size: 9px;
+          padding: 3px 6px;
+        }
+      }
+      
+      /* Scrollbar Styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+      }
+      
+      ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+      }
+      
+      ::-webkit-scrollbar-thumb:hover {
+        background: #573FD7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        <i class="fas fa-circle-question"></i> Laser Training System Help Center
+      </h1>
+      
+      <!-- Search Bar -->
+      <div class="search-container">
+        <input type="text" id="search-input" class="search-input" placeholder="Search help content...">
+        <i class="fas fa-search search-icon"></i>
+        <span class="search-shortcut" onclick="openSearchModal()">Alt+K</span>
+        <div class="search-results-dropdown" id="search-dropdown">
+          <!-- Dropdown results will be populated here -->
+        </div>
+      </div>
+      
+      <!-- Main Tab Navigation -->
+      <div class="main-tabs">
+        <div class="main-tab active" data-main-tab="video-tutorials">
+          <i class="fas fa-play-circle"></i> Video Tutorials
+        </div>
+        <div class="main-tab" data-main-tab="manual">
+          <i class="fas fa-book"></i> Manual
+        </div>
+        <div class="main-tab" data-main-tab="grading">
+          <i class="fas fa-graduation-cap"></i> Grading Guidance
+        </div>
+        <div class="main-tab-indicator"></div>
+      </div>
+      
+      <!-- Video Tutorials Content -->
+      <div id="video-tutorials" class="main-tab-content active">
+        <!-- Sub Tab Navigation for Video Tutorials -->
+        <div class="sub-tabs">
+          <div class="sub-tab active" data-sub-tab="video-main-system">Main System Usage</div>
+          <div class="sub-tab" data-sub-tab="video-how-to">How to's</div>
+          <div class="sub-tab-indicator"></div>
+        </div>
+        
+        <!-- Video Main System Usage -->
+        <div id="video-main-system" class="sub-tab-content active">
+          <div id="dashboard-video" class="content-section" data-search-terms="dashboard overview main landing page notifications bell icon trainings trainees trainers">
+            <h3><i class="fas fa-tachometer-alt"></i> The Dashboard Tab</h3>
+            <div class="video-container" data-video-src="https://drive.google.com/file/d/1Tj6bTHHlfigr2TvVhrOpAiqKYTNIN-Xg/preview">
+              <div class="video-placeholder">
+                <div class="video-loading" style="display: none;">
+                  <div class="video-loading-spinner"></div>
+                  <span>Loading video...</span>
+                </div>
+                <div class="video-play-button">
+                  <i class="fas fa-play"></i>
+                </div>
+                <span>Click to load Dashboard tutorial</span>
+              </div>
+            </div>
+          </div>
+          
+          <div id="trainee-database-video" class="content-section" data-search-terms="trainee database register search view card table modal edit">
+            <h3><i class="fas fa-database"></i> The Trainee Database Tab</h3>
+            <div class="video-container" data-video-src="https://drive.google.com/file/d/1DrRw17Qjy22Bq27h0g7qJH2BMLB-LmOu/preview">
+              <div class="video-placeholder">
+                <div class="video-loading" style="display: none;">
+                  <div class="video-loading-spinner"></div>
+                  <span>Loading video...</span>
+                </div>
+                <div class="video-play-button">
+                  <i class="fas fa-play"></i>
+                </div>
+                <span>Click to load Trainee Database tutorial</span>
+              </div>
+            </div>
+          </div>
+          
+          <div id="trainee-management-video" class="content-section" data-search-terms="trainee management training create all trainings participating filters">
+            <h3><i class="fas fa-users-cog"></i> The Trainee Management Tab</h3>
+            <div class="video-container" data-video-src="https://drive.google.com/file/d/1K1FsMe8CWkjB9Oq1c5qBUHIh1hOQeYnr/preview">
+              <div class="video-placeholder">
+                <div class="video-loading" style="display: none;">
+                  <div class="video-loading-spinner"></div>
+                  <span>Loading video...</span>
+                </div>
+                <div class="video-play-button">
+                  <i class="fas fa-play"></i>
+                </div>
+                <span>Click to load Trainee Management tutorial</span>
+              </div>
+            </div>
+          </div>
+          
+          <div id="questions-video" class="content-section" data-search-terms="questions management main training refreshment add question objective">
+            <h3><i class="fas fa-question-circle"></i> The Questions Tab</h3>
+            <div class="video-container" data-video-src="https://drive.google.com/file/d/1V8ywqrFH3t7uATcG4rfVZqkF2WCuPDCa/preview">
+              <div class="video-placeholder">
+                <div class="video-loading" style="display: none;">
+                  <div class="video-loading-spinner"></div>
+                  <span>Loading video...</span>
+                </div>
+                <div class="video-play-button">
+                  <i class="fas fa-play"></i>
+                </div>
+                <span>Click to load Questions tutorial</span>
+              </div>
+            </div>
+          </div>
+          
+          <div id="settings-video" class="content-section" data-search-terms="settings admin normal users healthcare device serial area specialization k-laser model">
+            <h3><i class="fas fa-cog"></i> The Settings Tab</h3>
+            <div class="video-container" data-video-src="https://drive.google.com/file/d/1sFNShUIRe6PESS7cXnkux5EFpL_1ry3_/preview">
+              <div class="video-placeholder">
+                <div class="video-loading" style="display: none;">
+                  <div class="video-loading-spinner"></div>
+                  <span>Loading video...</span>
+                </div>
+                <div class="video-play-button">
+                  <i class="fas fa-play"></i>
+                </div>
+                <span>Click to load Settings tutorial</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Video How To's -->
+        <div id="video-how-to" class="sub-tab-content">
+          <div id="register-trainee-video" class="content-section" data-search-terms="register trainee system form submit database">
+            <h3><i class="fas fa-user-plus"></i> How to register a Trainee into the System</h3>
+            <div class="video-container" data-video-src="https://drive.google.com/file/d/1e4zpmE6hgz6Wp_mcVXkWjxdbbkC73ezZ/preview">
+              <div class="video-placeholder">
+                <div class="video-loading" style="display: none;">
+                  <div class="video-loading-spinner"></div>
+                  <span>Loading video...</span>
+                </div>
+                <div class="video-play-button">
+                  <i class="fas fa-play"></i>
+                </div>
+                <span>Click to load Register Trainee tutorial</span>
+              </div>
+            </div>
+          </div>
+          
+          <div id="check-trainee-details-video" class="content-section" data-search-terms="check trainee details modify data edit modal card table view">
+            <h3><i class="fas fa-user-edit"></i> How to check the Trainee Details and modify trainee data</h3>
+            <div class="video-container" data-video-src="https://drive.google.com/file/d/1wyFLv8FQC0VcM9KJRv9aHvSJrjIn544l/preview">
+              <div class="video-placeholder">
+                <div class="video-loading" style="display: none;">
+                  <div class="video-loading-spinner"></div>
+                  <span>Loading video...</span>
+                </div>
+                <div class="video-play-button">
+                  <i class="fas fa-play"></i>
+                </div>
+                <span>Click to load Check Trainee Details tutorial</span>
+              </div>
+            </div>
+          </div>
+          
+          <div id="create-training-video" class="content-section" data-search-terms="create training form trainer healthcare centre dates device serial">
+            <h3><i class="fas fa-plus-circle"></i> How to create a training</h3>
+            <div class="video-container" data-video-src="https://drive.google.com/file/d/1rZGCS7v5gezmV_sAvzQ4ti5w9vrnG90N/preview">
+              <div class="video-placeholder">
+                <div class="video-loading" style="display: none;">
+                  <div class="video-loading-spinner"></div>
+                  <span>Loading video...</span>
+                </div>
+                <div class="video-play-button">
+                  <i class="fas fa-play"></i>
+                </div>
+                <span>Click to load Create Training tutorial</span>
+              </div>
+            </div>
+          </div>
+          
+          <div id="whatsapp-link-video" class="content-section" data-search-terms="whatsapp group link add edit training actions">
+            <h3><i class="fab fa-whatsapp"></i> How to add a whatsapp group link</h3>
+            <div class="video-container" data-video-src="https://drive.google.com/file/d/17VYLKy6Dai_E2E8SKVmKjWsyWKR1AHWp/preview">
+              <div class="video-placeholder">
+                <div class="video-loading" style="display: none;">
+                  <div class="video-loading-spinner"></div>
+                  <span>Loading video...</span>
+                </div>
+                <div class="video-play-button">
+                  <i class="fas fa-play"></i>
+                </div>
+                <span>Click to load WhatsApp Link tutorial</span>
+              </div>
+            </div>
+          </div>
+          
+          <div id="modify-training-video" class="content-section" data-search-terms="modify training data edit actions modal save changes">
+            <h3><i class="fas fa-edit"></i> How to modify training data</h3>
+            <div class="video-container" data-video-src="https://drive.google.com/file/d/1ySBcyZFNX45b5LhBVg6-Si_DhqXYf-n9/preview">
+              <div class="video-placeholder">
+                <div class="video-loading" style="display: none;">
+                  <div class="video-loading-spinner"></div>
+                  <span>Loading video...</span>
+                </div>
+                <div class="video-play-button">
+                  <i class="fas fa-play"></i>
+                </div>
+                <span>Click to load Modify Training tutorial</span>
+              </div>
+            </div>
+          </div>
+          
+          <div id="gradebook-access-video" class="content-section" data-search-terms="gradebook link access training management participating trainees">
+            <h3><i class="fas fa-graduation-cap"></i> How to go to the gradebook</h3>
+            <div class="video-container" data-video-src="https://drive.google.com/file/d/1hV8pd6Rexm6qI3FclQvR0nmD7ih-4smM/preview">
+              <div class="video-placeholder">
+                <div class="video-loading" style="display: none;">
+                  <div class="video-loading-spinner"></div>
+                  <span>Loading video...</span>
+                </div>
+                <div class="video-play-button">
+                  <i class="fas fa-play"></i>
+                </div>
+                <span>Click to load Gradebook Access tutorial</span>
+              </div>
+            </div>
+          </div>
+          
+          <div id="generate-materials-video" class="content-section" data-search-terms="generate training materials documents resources download">
+            <h3><i class="fas fa-file-alt"></i> How to generate Training Materials</h3>
+            <div class="video-container" data-video-src="https://drive.google.com/file/d/1Z2p9UGykfr4C0tj0UVtXh5dF3n39LDcq/preview">
+              <div class="video-placeholder">
+                <div class="video-loading" style="display: none;">
+                  <div class="video-loading-spinner"></div>
+                  <span>Loading video...</span>
+                </div>
+                <div class="video-play-button">
+                  <i class="fas fa-play"></i>
+                </div>
+                <span>Click to load Generate Materials tutorial</span>
+              </div>
+            </div>
+          </div>
+          
+          <div id="test-links-video" class="content-section" data-search-terms="post test pre test links generate assessment trainees">
+            <h3><i class="fas fa-link"></i> How to get the Post test and Pre Test links</h3>
+            <div class="video-container" data-video-src="https://drive.google.com/file/d/1CZwfECVoKRcq_8Mw3vKBxBSTXKdTcJqb/preview">
+              <div class="video-placeholder">
+                <div class="video-loading" style="display: none;">
+                  <div class="video-loading-spinner"></div>
+                  <span>Loading video...</span>
+                </div>
+                <div class="video-play-button">
+                  <i class="fas fa-play"></i>
+                </div>
+                <span>Click to load Test Links tutorial</span>
+              </div>
+            </div>
+          </div>
+          
+          <div id="manage-trainees-video" class="content-section" data-search-terms="add remove trainees gradebook manage participants">
+            <h3><i class="fas fa-user-minus"></i> How to Add or Remove Trainee's from Gradebook</h3>
+            <div class="video-container" data-video-src="https://drive.google.com/file/d/1KXrechJEl9kzhrPM8smZf05aMTFkRtBE/preview">
+              <div class="video-placeholder">
+                <div class="video-loading" style="display: none;">
+                  <div class="video-loading-spinner"></div>
+                  <span>Loading video...</span>
+                </div>
+                <div class="video-play-button">
+                  <i class="fas fa-play"></i>
+                </div>
+                <span>Click to load Manage Trainees tutorial</span>
+              </div>
+            </div>
+          </div>
+          
+          <div id="grade-hands-on-video" class="content-section" data-search-terms="grade hands on marks evaluation performance score remarks descriptor">
+            <h3><i class="fas fa-hand-paper"></i> How to Grade Hands on Marks</h3>
+            <div class="video-container" data-video-src="https://drive.google.com/file/d/1uxDlpLpgDD2FM_9h3ZInc22H_pEuGkI4/preview">
+              <div class="video-placeholder">
+                <div class="video-loading" style="display: none;">
+                  <div class="video-loading-spinner"></div>
+                  <span>Loading video...</span>
+                </div>
+                <div class="video-play-button">
+                  <i class="fas fa-play"></i>
+                </div>
+                <span>Click to load Grade Hands-on tutorial</span>
+              </div>
+            </div>
+          </div>
+          
+          <div id="finish-training-video" class="content-section" data-search-terms="finish training complete status certificates assessments grades">
+            <h3><i class="fas fa-check-circle"></i> How to finish a training</h3>
+            <div class="video-container" data-video-src="https://drive.google.com/file/d/1RBezENTn9XFMFnddkZCTWO7uA5BafAgr/preview">
+              <div class="video-placeholder">
+                <div class="video-loading" style="display: none;">
+                  <div class="video-loading-spinner"></div>
+                  <span>Loading video...</span>
+                </div>
+                <div class="video-play-button">
+                  <i class="fas fa-play"></i>
+                </div>
+                <span>Click to load Finish Training tutorial</span>
+              </div>
+            </div>
+          </div>
+          
+          <div id="training-package-video" class="content-section" data-search-terms="training package download export certificates results materials">
+            <h3><i class="fas fa-download"></i> How to get the training package</h3>
+            <div class="video-container" data-video-src="https://drive.google.com/file/d/1-2rknXmeaFsIXGFJfED-1X_7JkKL3DeM/preview">
+              <div class="video-placeholder">
+                <div class="video-loading" style="display: none;">
+                  <div class="video-loading-spinner"></div>
+                  <span>Loading video...</span>
+                </div>
+                <div class="video-play-button">
+                  <i class="fas fa-play"></i>
+                </div>
+                <span>Click to load Training Package tutorial</span>
+              </div>
+            </div>
+          </div>
+          
+          <div id="add-question-video" class="content-section" data-search-terms="add new question main training refreshment options objective">
+            <h3><i class="fas fa-plus"></i> How to add new Question</h3>
+            <div class="video-container" data-video-src="https://drive.google.com/file/d/1pxorvMMzObZ-MhjR8lAsvXQtV2rxByJD/preview">
+              <div class="video-placeholder">
+                <div class="video-loading" style="display: none;">
+                  <div class="video-loading-spinner"></div>
+                  <span>Loading video...</span>
+                </div>
+                <div class="video-play-button">
+                  <i class="fas fa-play"></i>
+                </div>
+                <span>Click to load Add Question tutorial</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Manual Content -->
+      <div id="manual" class="main-tab-content">
+        <!-- Sub Tab Navigation for Manual -->
+        <div class="sub-tabs">
+          <div class="sub-tab active" data-sub-tab="manual-main-system">Main System Usage</div>
+          <div class="sub-tab" data-sub-tab="manual-how-to">How to's</div>
+          <div class="sub-tab-indicator"></div>
+        </div>
+        
+        <!-- Manual Main System Usage -->
+        <div id="manual-main-system" class="sub-tab-content active">
+          <div id="dashboard-manual" class="content-section" data-search-terms="dashboard main landing page notifications bell icon trainings trainees trainers overview summary">
+            <h3><i class="fas fa-tachometer-alt"></i> The Dashboard Tab</h3>
+            <div class="manual-content">
+              <p>The Dashboard is the main landing page when you enter the system. It's designed to give you a quick summary of all the important elements—trainings, trainees, and trainers—so you can get an overview at a glance.</p>
+              
+              <h4><i class="fas fa-bell"></i> Bell Icon (Notifications)</h4>
+              <p>At the top right of the page, there is a <strong>bell icon</strong> which represents your notifications. The number next to it shows how many trainees are close to their certificate expiry date.</p>
+              <p>Clicking the bell opens a <strong>custom modal</strong>, and inside this modal, you will see a list of <strong>healthcare centres</strong> that currently have trainees nearing expiry. Each healthcare centre in the list can be expanded, and once you expand it, you'll see the list of individual trainees under that healthcare centre along with their details.</p>
+              
+              <h4><i class="fas fa-chart-line"></i> Trainings Section</h4>
+              <p>This is the first section in the Dashboard. It displays <strong>four cards</strong>, each with a count:</p>
+              <div class="feature-list">
+                <ul>
+                  <li><strong>Total Trainings</strong> – shows how many trainings exist in the system, regardless of status.</li>
+                  <li><strong>In Progress</strong></li>
+                  <li><strong>Completed</strong></li>
+                  <li><strong>Cancelled</strong></li>
+                  <li><strong>Rescheduled</strong></li>
+                </ul>
+              </div>
+              <p>These represent the different statuses of trainings in the system. It's a quick summary so you can understand the training flow in one look.</p>
+              
+              <h4><i class="fas fa-clock"></i> Recent Trainings</h4>
+              <p>Here, you will always see the <strong>10 most recent trainings</strong> created or updated. For each training, the following details are shown:</p>
+              <div class="feature-list">
+                <ul>
+                  <li>Training Name</li>
+                  <li>Trainer</li>
+                  <li>Healthcare Centre</li>
+                  <li>Start Date & Time</li>
+                  <li>End Date & Time</li>
+                  <li>Device Serial Number</li>
+                  <li>Training Type</li>
+                  <li>Training Status</li>
+                </ul>
+              </div>
+              <p>This section helps you track recent activities and upcoming or ongoing trainings.</p>
+              
+              <h4><i class="fas fa-users"></i> Trainees Section</h4>
+              <p>There are <strong>three cards</strong>:</p>
+              <div class="feature-list">
+                <ul>
+                  <li><strong>Total Trainees</strong> – shows how many trainees are in the system overall.</li>
+                  <li><strong>Active Trainees</strong> – trainees currently marked with status 'Active'.</li>
+                  <li><strong>Inactive Trainees</strong> – those not currently participating or active in training.</li>
+                </ul>
+              </div>
+              
+              <h4><i class="fas fa-chalkboard-teacher"></i> Trainers Section</h4>
+              <p>Each card here represents <strong>one trainer</strong>. On the card, you'll see:</p>
+              <div class="feature-list">
+                <ul>
+                  <li>The trainer's name</li>
+                  <li>Number of completed trainings</li>
+                  <li>Number of trainings currently in progress</li>
+                </ul>
+              </div>
+              <p>This gives a quick view of how active each trainer is.</p>
+            </div>
+          </div>
+          
+          <div id="trainee-database-manual" class="content-section" data-search-terms="trainee database register search view card table modal edit details">
+            <h3><i class="fas fa-database"></i> The Trainee Database Tab</h3>
+            <div class="manual-content">
+              <p>This page is where all your trainee data is stored and managed.</p>
+              
+              <h4><i class="fas fa-plus"></i> Register a Trainee Button</h4>
+              <p>Right at the top, you'll find a <strong>Register a Trainee</strong> button. When clicked, it opens a form for registering a new trainee.</p>
+              
+              <h4><i class="fas fa-search"></i> Search Bar</h4>
+              <p>There's a universal search bar that allows you to search trainees using any of the following:</p>
+              <div class="feature-list">
+                <ul>
+                  <li>Name</li>
+                  <li>IC Number</li>
+                  <li>ID Number</li>
+                  <li>Healthcare Centre</li>
+                  <li>Status (active, inactive, or empty)</li>
+                </ul>
+              </div>
+              
+              <h4><i class="fas fa-eye"></i> View Modes</h4>
+              <p>You can choose how you want to view the data: <strong>Card View</strong> or <strong>Table View</strong>.</p>
+              
+              <h4><i class="fas fa-id-card"></i> Card View:</h4>
+              <div class="feature-list">
+                <ul>
+                  <li>Each card represents <strong>one trainee</strong>.</li>
+                  <li>The <strong>title</strong> of the card is the trainee's name.</li>
+                  <li>Quick info shown includes: Name, ID, IC/Passport, Healthcare, Latest Training, Re-certification Date, Completed Trainings, Status</li>
+                </ul>
+              </div>
+              
+              <p>When you click the card, a <strong>modal pop-up</strong> will appear showing detailed trainee information including training history.</p>
+              
+              <p>In the modal, you'll find:</p>
+              <div class="feature-list">
+                <ul>
+                  <li>A <strong>Cancel</strong> button to close the modal.</li>
+                  <li>An <strong>Edit</strong> button to modify certain fields</li>
+                  <li><strong>Editable:</strong> Name, IC/Passport, Email, Handphone Number, Healthcare, Designation, Area of Specialization, Serial Number, Trainee Status</li>
+                  <li><strong>Uneditable:</strong> Fields that are auto-calculated or used as system references.</li>
+                </ul>
+              </div>
+              
+              <h4><i class="fas fa-table"></i> Table View:</h4>
+              <div class="feature-list">
+                <ul>
+                  <li>Each row is one trainee.</li>
+                  <li>Click on any row to open the <strong>same detailed modal</strong> as in the card view.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <div id="trainee-management-manual" class="content-section" data-search-terms="trainee management training create all trainings participating filters search">
+            <h3><i class="fas fa-users-cog"></i> The Trainee Management Tab</h3>
+            <div class="manual-content">
+              <p>This page is split into <strong>two tabs</strong>:</p>
+              <div class="feature-list">
+                <ul>
+                  <li><strong>All Trainings</strong></li>
+                  <li><strong>Participating Trainees</strong></li>
+                </ul>
+              </div>
+              
+              <h4><i class="fas fa-plus-circle"></i> Create a Training</h4>
+              <p>At the top, there is a <strong>long button</strong> that says <strong>Create a Training</strong>. Clicking it brings you to a training creation form.</p>
+              
+              <h4><i class="fas fa-filter"></i> Search & Filters (All Trainings Tab only)</h4>
+              <div class="feature-list">
+                <ul>
+                  <li><strong>Search Bar:</strong> Search for any field.</li>
+                  <li><strong>Filter Section:</strong> Allows you to filter by Training ID, Trainer, Healthcare Centre, Device Serial Number, Training Type, Training Status</li>
+                  <li>Click <strong>Apply Filters</strong> to search.</li>
+                  <li>Click <strong>Reset Filters</strong> to clear everything.</li>
+                </ul>
+              </div>
+              <p><em>Note: The filter section is not available in the Participating Trainees tab; only the search bar is present.</em></p>
+              
+              <h4><i class="fas fa-list"></i> All Trainings Tab</h4>
+              <p>Displays all trainings in a <strong>table view</strong>. Each row is one training, and the headers include:</p>
+              <div class="feature-list">
+                <ul>
+                  <li>Timestamp</li>
+                  <li>Training ID</li>
+                  <li>Trainer</li>
+                  <li>Healthcare Centre</li>
+                  <li>Start Date & Time</li>
+                  <li>End Date & Time</li>
+                  <li>Device Serial Number</li>
+                  <li>Training Type</li>
+                  <li>Gradebook Link</li>
+                  <li>Status</li>
+                  <li>WhatsApp Group</li>
+                  <li>Actions</li>
+                </ul>
+              </div>
+              
+              <p>You can edit training information using the <strong>Actions > Edit</strong> button. This opens a <strong>modal</strong> where you can edit various fields and save changes.</p>
+              
+              <h4><i class="fas fa-users"></i> Participating Trainees Tab</h4>
+              <p>This tab shows <strong>cards</strong>, each representing one training. Each card displays Training ID, Gradebook Link, and Number of trainees.</p>
+              <p>Click <strong>View Trainees</strong> to open a modal where you can see detailed trainee information including performance descriptors and remarks.</p>
+            </div>
+          </div>
+          
+          <div id="questions-manual" class="content-section" data-search-terms="questions management main training refreshment add question objective options">
+            <h3><i class="fas fa-question-circle"></i> The Questions Tab</h3>
+            <div class="manual-content">
+              <p>This section manages your training assessment questions.</p>
+              
+              <p>There are <strong>two tabs</strong>:</p>
+              <div class="feature-list">
+                <ul>
+                  <li><strong>Main Training Questions</strong></li>
+                  <li><strong>Refreshment Training Questions</strong></li>
+                </ul>
+              </div>
+              
+              <h4><i class="fas fa-plus"></i> Add Question</h4>
+              <p>Each tab has a button:</p>
+              <div class="feature-list">
+                <ul>
+                  <li>"Add Main Training Question"</li>
+                  <li>"Add Refreshment Training Question"</li>
+                </ul>
+              </div>
+              
+              <h4><i class="fas fa-list-alt"></i> Question Cards</h4>
+              <p>Each card shows:</p>
+              <div class="feature-list">
+                <ul>
+                  <li>The <strong>question</strong> as the title.</li>
+                  <li>Options A to D (correct one in <strong>green</strong>).</li>
+                  <li>The objective labeled below the options: <code>Objective: [text]</code>.</li>
+                </ul>
+              </div>
+              
+              <h4><i class="fas fa-search"></i> Search Bar</h4>
+              <p>Each tab has its own search bar for finding specific questions in that set.</p>
+            </div>
+          </div>
+          
+          <div id="settings-manual" class="content-section" data-search-terms="settings admin normal users healthcare device serial area specialization k-laser model">
+            <h3><i class="fas fa-cog"></i> The Settings Tab</h3>
+            <div class="manual-content">
+              <p>This is where you can manage various system-wide settings.</p>
+              
+              <h4><i class="fas fa-user"></i> Normal Users</h4>
+              <p>Can only <strong>view</strong> current settings:</p>
+              <div class="feature-list">
+                <ul>
+                  <li>Healthcare Name</li>
+                  <li>Device Serial Number</li>
+                  <li>Area of Specialization</li>
+                  <li>K-Laser Model</li>
+                </ul>
+              </div>
+              
+              <h4><i class="fas fa-user-shield"></i> Admins Only</h4>
+              <p>Have full control:</p>
+              
+              <div class="collapsible-steps">
+                <div class="steps-header" data-target="add-setting-steps">
+                  <div class="steps-title">
+                    <i class="fas fa-plus"></i>
+                    Add Setting Steps
+                  </div>
+                  <i class="fas fa-chevron-down steps-toggle"></i>
+                </div>
+                <div class="steps-content" id="add-setting-steps">
+                  <ol class="step-list">
+                    <li>Choose the setting type (e.g., Area of Specialization)</li>
+                    <li>Enter the value</li>
+                    <li>Click <strong>Add Setting</strong></li>
+                  </ol>
+                </div>
+              </div>
+              
+              <div class="collapsible-steps">
+                <div class="steps-header" data-target="edit-setting-steps">
+                  <div class="steps-title">
+                    <i class="fas fa-edit"></i>
+                    Edit Setting Steps
+                  </div>
+                  <i class="fas fa-chevron-down steps-toggle"></i>
+                </div>
+                <div class="steps-content" id="edit-setting-steps">
+                  <ol class="step-list">
+                    <li>Click the <strong>Edit icon</strong> on a setting card</li>
+                    <li>A modal will appear</li>
+                    <li>Change the value and click <strong>Save</strong></li>
+                  </ol>
+                </div>
+              </div>
+              
+              <div class="collapsible-steps">
+                <div class="steps-header" data-target="delete-setting-steps">
+                  <div class="steps-title">
+                    <i class="fas fa-trash"></i>
+                    Delete Setting Steps
+                  </div>
+                  <i class="fas fa-chevron-down steps-toggle"></i>
+                </div>
+                <div class="steps-content" id="delete-setting-steps">
+                  <ol class="step-list">
+                    <li>Click the <strong>Trash icon</strong></li>
+                    <li>Confirm the deletion in the alert</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Manual How To's -->
+        <div id="manual-how-to" class="sub-tab-content">
+          <div id="register-trainee-manual" class="content-section" data-search-terms="register trainee system form submit database">
+            <h3><i class="fas fa-user-plus"></i> How to register a Trainee into the System</h3>
+            <div class="manual-content">
+              <div class="collapsible-steps">
+                <div class="steps-header" data-target="register-trainee-steps">
+                  <div class="steps-title">
+                    <i class="fas fa-list-ol"></i>
+                    Registration Steps
+                  </div>
+                  <i class="fas fa-chevron-down steps-toggle"></i>
+                </div>
+                <div class="steps-content" id="register-trainee-steps">
+                  <ol class="step-list">
+                    <li>Navigate to the <strong>Trainee Database</strong> tab</li>
+                    <li>Click the <strong>"Register a Trainee"</strong> button at the top of the page</li>
+                    <li>Fill in all required trainee information in the registration form</li>
+                    <li>Verify all details are correct</li>
+                    <li>Click <strong>"Submit"</strong> to register the trainee</li>
+                    <li>The new trainee will appear in your trainee database</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="check-trainee-details-manual" class="content-section" data-search-terms="check trainee details modify data edit modal card table view">
+            <h3><i class="fas fa-user-edit"></i> How to check the Trainee Details and modify trainee data</h3>
+            <div class="manual-content">
+              <div class="collapsible-steps">
+                <div class="steps-header" data-target="check-modify-trainee-steps">
+                  <div class="steps-title">
+                    <i class="fas fa-list-ol"></i>
+                    Check & Modify Steps
+                  </div>
+                  <i class="fas fa-chevron-down steps-toggle"></i>
+                </div>
+                <div class="steps-content" id="check-modify-trainee-steps">
+                  <ol class="step-list">
+                    <li>Go to the <strong>Trainee Database</strong> tab</li>
+                    <li>Use the search bar to find the specific trainee or browse through the list</li>
+                    <li>Click on the trainee's card (Card View) or row (Table View)</li>
+                    <li>A detailed modal will open showing all trainee information</li>
+                    <li>To modify data, click the <strong>"Edit"</strong> button in the modal</li>
+                    <li>Update the editable fields as needed</li>
+                    <li>Click <strong>"Save Changes"</strong> to confirm modifications</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="create-training-manual" class="content-section" data-search-terms="create training form trainer healthcare centre dates device serial">
+            <h3><i class="fas fa-plus-circle"></i> How to create a training</h3>
+            <div class="manual-content">
+              <div class="collapsible-steps">
+                <div class="steps-header" data-target="create-training-steps">
+                  <div class="steps-title">
+                    <i class="fas fa-list-ol"></i>
+                    Training Creation Steps
+                  </div>
+                  <i class="fas fa-chevron-down steps-toggle"></i>
+                </div>
+                <div class="steps-content" id="create-training-steps">
+                  <ol class="step-list">
+                    <li>Navigate to the <strong>Trainee Management</strong> tab</li>
+                    <li>Click the <strong>"Create a Training"</strong> button</li>
+                    <li>Fill in the training creation form with all required details</li>
+                    <li>Select the trainer, healthcare centre, and training type</li>
+                    <li>Set the start and end dates and times</li>
+                    <li>Assign the device serial number</li>
+                    <li>Add any additional training information</li>
+                    <li>Click <strong>"Create Training"</strong> to finalize</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="whatsapp-link-manual" class="content-section" data-search-terms="whatsapp group link add edit training actions">
+            <h3><i class="fab fa-whatsapp"></i> How to add a whatsapp group link</h3>
+            <div class="manual-content">
+              <div class="collapsible-steps">
+                <div class="steps-header" data-target="whatsapp-link-steps">
+                  <div class="steps-title">
+                    <i class="fas fa-list-ol"></i>
+                    WhatsApp Link Steps
+                  </div>
+                  <i class="fas fa-chevron-down steps-toggle"></i>
+                </div>
+                <div class="steps-content" id="whatsapp-link-steps">
+                  <ol class="step-list">
+                    <li>Go to the <strong>Trainee Management</strong> tab</li>
+                    <li>Find the training in the <strong>"All Trainings"</strong> section</li>
+                    <li>Click the <strong>"Edit"</strong> button in the Actions column</li>
+                    <li>In the edit modal, locate the <strong>"WhatsApp Group"</strong> field</li>
+                    <li>Paste or type the WhatsApp group link</li>
+                    <li>Click <strong>"Save Changes"</strong> to update the training</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="modify-training-manual" class="content-section" data-search-terms="modify training data edit actions modal save changes">
+            <h3><i class="fas fa-edit"></i> How to modify training data</h3>
+            <div class="manual-content">
+              <div class="collapsible-steps">
+                <div class="steps-header" data-target="modify-training-steps">
+                  <div class="steps-title">
+                    <i class="fas fa-list-ol"></i>
+                    Modify Training Steps
+                  </div>
+                  <i class="fas fa-chevron-down steps-toggle"></i>
+                </div>
+                <div class="steps-content" id="modify-training-steps">
+                  <ol class="step-list">
+                    <li>Navigate to <strong>Trainee Management</strong> > <strong>"All Trainings"</strong> tab</li>
+                    <li>Locate the training you want to modify</li>
+                    <li>Click the <strong>"Edit"</strong> button in the Actions column</li>
+                    <li>A modal will open with editable fields including: Trainer, Healthcare Centre, Start/End Date & Time, Device Serial, WhatsApp Group, Status</li>
+                    <li>Make the necessary changes</li>
+                    <li>Click <strong>"Save Changes"</strong> to confirm modifications</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="gradebook-access-manual" class="content-section" data-search-terms="gradebook link access training management participating trainees">
+            <h3><i class="fas fa-graduation-cap"></i> How to go to the gradebook</h3>
+            <div class="manual-content">
+              <div class="collapsible-steps">
+                <div class="steps-header" data-target="gradebook-access-steps">
+                  <div class="steps-title">
+                    <i class="fas fa-list-ol"></i>
+                    Gradebook Access Steps
+                  </div>
+                  <i class="fas fa-chevron-down steps-toggle"></i>
+                </div>
+                <div class="steps-content" id="gradebook-access-steps">
+                  <ol class="step-list">
+                    <li>Go to the <strong>Trainee Management</strong> tab</li>
+                    <li>In the <strong>"All Trainings"</strong> section, find your training</li>
+                    <li>Click on the <strong>"Gradebook Link"</strong> in the training row</li>
+                    <li>This will open the gradebook for that specific training</li>
+                    <li>Alternatively, you can access gradebooks through the <strong>"Participating Trainees"</strong> tab by clicking the gradebook link on training cards</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="generate-materials-manual" class="content-section" data-search-terms="generate training materials documents resources download">
+            <h3><i class="fas fa-file-alt"></i> How to generate Training Materials</h3>
+            <div class="manual-content">
+              <div class="collapsible-steps">
+                <div class="steps-header" data-target="generate-materials-steps">
+                  <div class="steps-title">
+                    <i class="fas fa-list-ol"></i>
+                    Generate Materials Steps
+                  </div>
+                  <i class="fas fa-chevron-down steps-toggle"></i>
+                </div>
+                <div class="steps-content" id="generate-materials-steps">
+                  <ol class="step-list">
+                    <li>Access the training you want to generate materials for</li>
+                    <li>Navigate to the training's gradebook</li>
+                    <li>Look for the <strong>"Generate Materials"</strong> or <strong>"Training Materials"</strong> button</li>
+                    <li>Click the button to generate the training materials</li>
+                    <li>The system will compile all necessary training documents and resources</li>
+                    <li>Download or access the generated materials as needed</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="test-links-manual" class="content-section" data-search-terms="post test pre test links generate assessment trainees">
+            <h3><i class="fas fa-link"></i> How to get the Post test and Pre Test links</h3>
+            <div class="manual-content">
+              <div class="collapsible-steps">
+                <div class="steps-header" data-target="test-links-steps">
+                  <div class="steps-title">
+                    <i class="fas fa-list-ol"></i>
+                    Get Test Links Steps
+                  </div>
+                  <i class="fas fa-chevron-down steps-toggle"></i>
+                </div>
+                <div class="steps-content" id="test-links-steps">
+                  <ol class="step-list">
+                    <li>Navigate to the specific training in <strong>Trainee Management</strong></li>
+                    <li>Access the training's gradebook</li>
+                    <li>Look for the <strong>"Pre-Test"</strong> and <strong>"Post-Test"</strong> sections</li>
+                    <li>Click on <strong>"Generate Link"</strong> or <strong>"Get Link"</strong> for each test</li>
+                    <li>Copy the generated links</li>
+                    <li>Share these links with trainees for assessment purposes</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="manage-trainees-manual" class="content-section" data-search-terms="add remove trainees gradebook manage participants">
+            <h3><i class="fas fa-user-minus"></i> How to Add or Remove Trainee's from Gradebook</h3>
+            <div class="manual-content">
+              <div class="collapsible-steps">
+                <div class="steps-header" data-target="add-trainees-steps">
+                  <div class="steps-title">
+                    <i class="fas fa-user-plus"></i>
+                    Add Trainees Steps
+                  </div>
+                  <i class="fas fa-chevron-down steps-toggle"></i>
+                </div>
+                <div class="steps-content" id="add-trainees-steps">
+                  <ol class="step-list">
+                    <li>Open the training's gradebook</li>
+                    <li>Look for an <strong>"Add Trainee"</strong> or <strong>"Manage Participants"</strong> button</li>
+                    <li>Select trainees from the available list</li>
+                    <li>Click <strong>"Add Selected"</strong> to include them in the training</li>
+                  </ol>
+                </div>
+              </div>
+              
+              <div class="collapsible-steps">
+                <div class="steps-header" data-target="remove-trainees-steps">
+                  <div class="steps-title">
+                    <i class="fas fa-user-minus"></i>
+                    Remove Trainees Steps
+                  </div>
+                  <i class="fas fa-chevron-down steps-toggle"></i>
+                </div>
+                <div class="steps-content" id="remove-trainees-steps">
+                  <ol class="step-list">
+                    <li>In the gradebook, find the trainee you want to remove</li>
+                    <li>Click the <strong>"Remove"</strong> or <strong>"Delete"</strong> button next to their name</li>
+                    <li>Confirm the removal when prompted</li>
+                    <li>The trainee will be removed from the training gradebook</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="grade-hands-on-manual" class="content-section" data-search-terms="grade hands on marks evaluation performance score remarks descriptor">
+            <h3><i class="fas fa-hand-paper"></i> How to Grade Hands on Marks</h3>
+            <div class="manual-content">
+              <div class="collapsible-steps">
+                <div class="steps-header" data-target="grade-hands-on-steps">
+                  <div class="steps-title">
+                    <i class="fas fa-list-ol"></i>
+                    Grading Steps
+                  </div>
+                  <i class="fas fa-chevron-down steps-toggle"></i>
+                </div>
+                <div class="steps-content" id="grade-hands-on-steps">
+                  <ol class="step-list">
+                    <li>Access the training's gradebook</li>
+                    <li>Navigate to the <strong>"Hands-On Evaluation"</strong> section</li>
+                    <li>Find the trainee you want to grade</li>
+                    <li>Enter the hands-on performance score</li>
+                    <li>Add any remarks or comments about the trainee's performance</li>
+                    <li>Select the appropriate performance descriptor</li>
+                    <li>Click <strong>"Save Grade"</strong> to record the assessment</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="finish-training-manual" class="content-section" data-search-terms="finish training complete status certificates assessments grades">
+            <h3><i class="fas fa-check-circle"></i> How to finish a training</h3>
+            <div class="manual-content">
+              <div class="collapsible-steps">
+                <div class="steps-header" data-target="finish-training-steps">
+                  <div class="steps-title">
+                    <i class="fas fa-list-ol"></i>
+                    Finish Training Steps
+                  </div>
+                  <i class="fas fa-chevron-down steps-toggle"></i>
+                </div>
+                <div class="steps-content" id="finish-training-steps">
+                  <ol class="step-list">
+                    <li>Ensure all trainees have completed their assessments</li>
+                    <li>Verify all grades have been entered in the gradebook</li>
+                    <li>Go to the training in <strong>Trainee Management</strong></li>
+                    <li>Click <strong>"Edit"</strong> on the training</li>
+                    <li>Change the training status to <strong>"Completed"</strong></li>
+                    <li>Click <strong>"Save Changes"</strong></li>
+                    <li>The training will be marked as finished and certificates can be generated</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="training-package-manual" class="content-section" data-search-terms="training package download export certificates results materials">
+            <h3><i class="fas fa-download"></i> How to get the training package</h3>
+            <div class="manual-content">
+              <div class="collapsible-steps">
+                <div class="steps-header" data-target="training-package-steps">
+                  <div class="steps-title">
+                    <i class="fas fa-list-ol"></i>
+                    Get Training Package Steps
+                  </div>
+                  <i class="fas fa-chevron-down steps-toggle"></i>
+                </div>
+                <div class="steps-content" id="training-package-steps">
+                  <ol class="step-list">
+                    <li>Navigate to the completed training</li>
+                    <li>Access the training's gradebook</li>
+                    <li>Look for a <strong>"Download Training Package"</strong> or <strong>"Export Package"</strong> button</li>
+                    <li>Click the button to generate the complete training package</li>
+                    <li>The package will include certificates, assessment results, and training materials</li>
+                    <li>Download the package to your device</li>
+                    <li>The package can be used for record-keeping and trainee documentation</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="add-question-manual" class="content-section" data-search-terms="add new question main training refreshment options objective">
+            <h3><i class="fas fa-plus"></i> How to add new Question</h3>
+            <div class="manual-content">
+              <div class="collapsible-steps">
+                <div class="steps-header" data-target="add-question-steps">
+                  <div class="steps-title">
+                    <i class="fas fa-list-ol"></i>
+                    Add Question Steps
+                  </div>
+                  <i class="fas fa-chevron-down steps-toggle"></i>
+                </div>
+                <div class="steps-content" id="add-question-steps">
+                  <ol class="step-list">
+                    <li>Navigate to the <strong>Questions</strong> tab</li>
+                    <li>Choose between <strong>"Main Training Questions"</strong> or <strong>"Refreshment Training Questions"</strong> tab</li>
+                    <li>Click the appropriate <strong>"Add Question"</strong> button</li>
+                    <li>Enter the question text</li>
+                    <li>Add four answer options (A, B, C, D)</li>
+                    <li>Select the correct answer</li>
+                    <li>Specify the learning objective for the question</li>
+                    <li>Click <strong>"Save Question"</strong> to add it to the question bank</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Grading Guidance Content -->
+      <div id="grading" class="main-tab-content">
+        <div id="grading-content">
+          <!-- Overview Section -->
+          <div id="grading-overview" class="category-section" data-search-terms="grading guidance overview scoring bands outstanding above average needs improvement">
+            <div class="category-header">
+              <i class="fas fa-chart-line category-icon"></i>
+              <h2>Grading Guidance Overview</h2>
+            </div>
+            
+            <h3><i class="fas fa-check-circle"></i> Scoring Bands</h3>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Score (%)</th>
+                    <th>Grade</th>
+                    <th>Summary</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>80% – 100%</td>
+                    <td><span class="score-band score-outstanding">Outstanding</span></td>
+                    <td>Mastery level performance</td>
+                  </tr>
+                  <tr>
+                    <td>60% – 80%</td>
+                    <td><span class="score-band score-above-average">Above Average</span></td>
+                    <td>Strong competence with minor gaps</td>
+                  </tr>
+                  <tr>
+                    <td>40% – 60%</td>
+                    <td><span class="score-band score-average">Average</span></td>
+                    <td>Basic understanding; needs improvement</td>
+                  </tr>
+                  <tr>
+                    <td>20% – 40%</td>
+                    <td><span class="score-band score-below-average">Below Average</span></td>
+                    <td>Limited competence; needs support</td>
+                  </tr>
+                  <tr>
+                    <td>0% – 20%</td>
+                    <td><span class="score-band score-needs-improvement">Needs Improvement</span></td>
+                    <td>Minimal understanding; requires retraining</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <!-- Pre-Training Test Results -->
+          <div id="pre-training-results" class="category-section" data-search-terms="pre training test results ready advanced learning leadership knowledge gaps">
+            <div class="category-header">
+              <i class="fas fa-clipboard-check category-icon"></i>
+              <h2>1. Pre-Training Test Results</h2>
+            </div>
+            
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Grade</th>
+                    <th>Description</th>
+                    <th>Trainer Focus</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="score-band score-outstanding">Outstanding</span></td>
+                    <td>Ready for advanced learning and leadership roles.</td>
+                    <td>Provide complex challenges and mentoring opportunities.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="score-band score-above-average">Above Average</span></td>
+                    <td>Minor knowledge gaps.</td>
+                    <td>Use examples and hands-on practice to reinforce confidence.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="score-band score-average">Average</span></td>
+                    <td>Basic knowledge but uncertain application.</td>
+                    <td>Emphasize fundamentals and regular feedback.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="score-band score-below-average">Below Average</span></td>
+                    <td>Struggles with core concepts.</td>
+                    <td>Provide one-on-one or small group sessions; use visuals.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="score-band score-needs-improvement">Needs Improvement</span></td>
+                    <td>Lacks foundational knowledge.</td>
+                    <td>Start from basics; use interactive demonstrations; track progress closely.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <!-- Hands-On Evaluation -->
+          <div id="hands-on-evaluation" class="category-section" data-search-terms="hands on evaluation skills demonstrated accurate application confident supervision protocol independence safety compliance">
+            <div class="category-header">
+              <i class="fas fa-hands category-icon"></i>
+              <h2>2. Hands-On Evaluation</h2>
+            </div>
+            
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Grade</th>
+                    <th>Skills Demonstrated</th>
+                    <th>Conclusion</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="score-band score-outstanding">Outstanding</span></td>
+                    <td>Accurate application, confident supervision, protocol independence, and excellent safety compliance.</td>
+                    <td>Fully competent; ready to work independently.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="score-band score-above-average">Above Average</span></td>
+                    <td>Minor errors; solid grasp of protocols; performs well under minimal supervision.</td>
+                    <td>Needs light guidance to polish skills.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="score-band score-average">Average</span></td>
+                    <td>Understands basics but needs help with consistency, safety, and confidence.</td>
+                    <td>Requires more training and close supervision.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="score-band score-below-average">Below Average</span></td>
+                    <td>Struggles with key concepts and techniques.</td>
+                    <td>Needs significant retraining before independent practice.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="score-band score-needs-improvement">Needs Improvement</span></td>
+                    <td>Unable to perform basic tasks or ensure safety.</td>
+                    <td>Comprehensive retraining required before advancement.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <!-- Post-Training Test Results -->
+          <div id="post-training-results" class="category-section" data-search-terms="post training test results skill set evaluation mastery photobiomodulation laser parameters treatment techniques">
+            <div class="category-header">
+              <i class="fas fa-award category-icon"></i>
+              <h2>3. Post-Training Test Results</h2>
+            </div>
+            
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Grade</th>
+                    <th>Skill Set Evaluation</th>
+                    <th>Conclusion</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="score-band score-outstanding">Outstanding</span></td>
+                    <td>Mastery in all areas including photobiomodulation, laser parameters, and treatment techniques.</td>
+                    <td>Fully confident and capable of leading or training others.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="score-band score-above-average">Above Average</span></td>
+                    <td>Solid in most areas with minor gaps in complex applications.</td>
+                    <td>Ready for independent work with slight coaching.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="score-band score-average">Average</span></td>
+                    <td>Basic understanding; needs improvement in precision and consistency.</td>
+                    <td>Needs structured practice and supervision.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="score-band score-below-average">Below Average</span></td>
+                    <td>Inconsistent application and safety risks.</td>
+                    <td>Focused retraining and hands-on practice needed.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="score-band score-needs-improvement">Needs Improvement</span></td>
+                    <td>No foundational competence in any area.</td>
+                    <td>Restart training from basics to develop competence.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <!-- Post Training Scaling Table -->
+          <div id="scaling-table" class="category-section" data-search-terms="post training scaling table objectives competency level photobiomodulation laser parameters safety product knowledge treatment techniques">
+            <div class="category-header">
+              <i class="fas fa-table category-icon"></i>
+              <h2>Post Training Scaling Table in terms of Objectives</h2>
+            </div>
+            
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Score Range</th>
+                    <th>Competency Level</th>
+                    <th>Photobiomodulation</th>
+                    <th>Laser Parameters</th>
+                    <th>Laser Safety</th>
+                    <th>Product Knowledge</th>
+                    <th>Treatment Techniques</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>80–100%</td>
+                    <td><span class="score-band score-outstanding">Outstanding</span></td>
+                    <td>Fully grasps concepts; applies in various scenarios</td>
+                    <td>Excellent understanding and application</td>
+                    <td>Mastery of protocols; can guide others</td>
+                    <td>Profound product knowledge</td>
+                    <td>Precise and adaptable application</td>
+                  </tr>
+                  <tr>
+                    <td>60–80%</td>
+                    <td><span class="score-band score-above-average">Above Average</span></td>
+                    <td>Understands principles; can apply practically</td>
+                    <td>Good understanding; minor help needed</td>
+                    <td>Knows most measures; minor gaps</td>
+                    <td>Solid knowledge; few advanced gaps</td>
+                    <td>Performs well; needs fluidity in techniques</td>
+                  </tr>
+                  <tr>
+                    <td>40–60%</td>
+                    <td><span class="score-band score-average">Average</span></td>
+                    <td>Basic understanding; needs guidance</td>
+                    <td>General knowledge; struggles with adjustments</td>
+                    <td>Understands basics; may overlook key areas</td>
+                    <td>Familiar with features; lacks depth</td>
+                    <td>Basic execution; needs accuracy improvement</td>
+                  </tr>
+                  <tr>
+                    <td>20–40%</td>
+                    <td><span class="score-band score-below-average">Below Average</span></td>
+                    <td>Limited understanding; struggles with application</td>
+                    <td>Poor grasp; frequent support needed</td>
+                    <td>Limited awareness; risk of safety issues</td>
+                    <td>Superficial knowledge</td>
+                    <td>Inconsistent and lacks skill</td>
+                  </tr>
+                  <tr>
+                    <td>0–20%</td>
+                    <td><span class="score-band score-needs-improvement">Needs Improvement</span></td>
+                    <td>No understanding; can't explain or apply concepts</td>
+                    <td>No understanding of parameters</td>
+                    <td>Unaware of protocols; unsafe</td>
+                    <td>No familiarity with product</td>
+                    <td>Cannot perform basic techniques</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <!-- No Results Message (hidden by default) -->
+          <div id="no-results" class="no-results" style="display: none;">
+            <i class="fas fa-search fa-2x"></i>
+            <p>No matching results found. Try a different search term.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- WhatsApp Support Button -->
+      <div class="whatsapp-button-container">
+        <a href="https://wa.me/601121194948" class="whatsapp-button" target="_blank">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Logo" width="30" height="30">
+          Contact Support on WhatsApp
+        </a>
+      </div>
+      
+      <!-- Footer -->
+      <div class="footer">
+        <p>If you need further assistance, please contact the support person (Aiman) via WhatsApp.</p>
+        <p><i class="fas fa-info-circle"></i> This help center is designed to guide you through all aspects of the Laser Training System.</p>
+      </div>
+    </div>
+    
+    <!-- Popup Search Modal -->
+    <div class="search-modal" id="search-modal">
+      <div class="search-modal-content">
+        <div class="search-modal-header">
+          <div class="search-modal-input-container">
+            <input type="text" id="modal-search-input" class="search-modal-input" placeholder="Search help content..." autofocus>
+            <i class="fas fa-search search-modal-icon"></i>
+          </div>
+          <button class="search-modal-close" id="search-modal-close">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="search-modal-result-count" id="result-count"></div>
+        <div class="search-modal-results" id="search-results">
+          <!-- Results will be populated here -->
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Main Tab Switching
+        const mainTabs = document.querySelectorAll('.main-tab');
+        const mainTabContents = document.querySelectorAll('.main-tab-content');
+        const mainTabIndicator = document.querySelector('.main-tab-indicator');
+        
+        // Sub Tab Switching
+        const subTabs = document.querySelectorAll('.sub-tab');
+        const subTabContents = document.querySelectorAll('.sub-tab-content');
+        
+        // Collapsible Steps
+        const stepsHeaders = document.querySelectorAll('.steps-header');
+        
+        // Search functionality
+        const searchInput = document.getElementById('search-input');
+        const searchDropdown = document.getElementById('search-dropdown');
+        const searchModal = document.getElementById('search-modal');
+        const modalSearchInput = document.getElementById('modal-search-input');
+        const searchResults = document.getElementById('search-results');
+        const resultCount = document.getElementById('result-count');
+        const closeModalBtn = document.getElementById('search-modal-close');
+        
+        // Video lazy loading
+        const videoContainers = document.querySelectorAll('.video-container');
+        const observerOptions = {
+          root: null,
+          rootMargin: '50px',
+          threshold: 0.1
+        };
+        
+        let searchTimeout;
+        
+        // Set initial main tab indicator position
+        function setMainIndicator(tab) {
+          mainTabIndicator.style.width = tab.offsetWidth + 'px';
+          mainTabIndicator.style.left = tab.offsetLeft + 'px';
+        }
+        
+        // Set initial sub tab indicator position
+        function setSubIndicator(tab, indicator) {
+          indicator.style.width = tab.offsetWidth + 'px';
+          indicator.style.left = tab.offsetLeft + 'px';
+        }
+        
+        // Initialize indicators
+        setMainIndicator(document.querySelector('.main-tab.active'));
+        
+        // Initialize sub tab indicators for each section
+        document.querySelectorAll('.sub-tabs').forEach(subTabContainer => {
+          const activeSubTab = subTabContainer.querySelector('.sub-tab.active');
+          const indicator = subTabContainer.querySelector('.sub-tab-indicator');
+          if (activeSubTab && indicator) {
+            setSubIndicator(activeSubTab, indicator);
+          }
+        });
+        
+        // Video lazy loading with Intersection Observer
+        const videoObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const container = entry.target;
+              const videoSrc = container.getAttribute('data-video-src');
+              const placeholder = container.querySelector('.video-placeholder');
+              const playButton = container.querySelector('.video-play-button');
+              
+              if (videoSrc && !container.querySelector('iframe')) {
+                // Add click handler to load video
+                const loadVideo = () => {
+                  const loading = container.querySelector('.video-loading');
+                  loading.style.display = 'flex';
+                  playButton.style.display = 'none';
+                  
+                  const iframe = document.createElement('iframe');
+                  iframe.src = videoSrc;
+                  iframe.allowFullscreen = true;
+                  iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                  
+                  iframe.onload = () => {
+                    iframe.classList.add('loaded');
+                    placeholder.classList.add('hidden');
+                  };
+                  
+                  container.appendChild(iframe);
+                };
+                
+                playButton.addEventListener('click', loadVideo);
+                container.addEventListener('click', (e) => {
+                  if (e.target === container || e.target === placeholder) {
+                    loadVideo();
+                  }
+                });
+              }
+              
+              videoObserver.unobserve(container);
+            }
+          });
+        }, observerOptions);
+        
+        // Observe all video containers
+        videoContainers.forEach(container => {
+          videoObserver.observe(container);
+        });
+        
+        // Main tab click handlers
+        mainTabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            const tabId = tab.getAttribute('data-main-tab');
+            
+            // Remove active class from all main tabs and contents
+            mainTabs.forEach(t => t.classList.remove('active'));
+            mainTabContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked tab and corresponding content
+            tab.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+            
+            // Animate the main indicator
+            setMainIndicator(tab);
+            
+            // Reset sub tab indicators for the active main tab
+            const activeMainContent = document.getElementById(tabId);
+            const subTabContainer = activeMainContent.querySelector('.sub-tabs');
+            if (subTabContainer) {
+              const activeSubTab = subTabContainer.querySelector('.sub-tab.active');
+              const indicator = subTabContainer.querySelector('.sub-tab-indicator');
+              if (activeSubTab && indicator) {
+                setTimeout(() => setSubIndicator(activeSubTab, indicator), 100);
+              }
+            }
+          });
+        });
+        
+        // Sub tab click handlers
+        subTabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            const tabId = tab.getAttribute('data-sub-tab');
+            const parentContainer = tab.closest('.main-tab-content');
+            
+            // Remove active class from sub tabs and contents within this parent
+            const siblingTabs = parentContainer.querySelectorAll('.sub-tab');
+            const siblingContents = parentContainer.querySelectorAll('.sub-tab-content');
+            
+            siblingTabs.forEach(t => t.classList.remove('active'));
+            siblingContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked tab and corresponding content
+            tab.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+            
+            // Animate the sub indicator
+            const indicator = tab.closest('.sub-tabs').querySelector('.sub-tab-indicator');
+            if (indicator) {
+              setSubIndicator(tab, indicator);
+            }
+          });
+        });
+        
+        // Collapsible steps functionality
+        stepsHeaders.forEach(header => {
+          header.addEventListener('click', () => {
+            const targetId = header.getAttribute('data-target');
+            const content = document.getElementById(targetId);
+            
+            // Toggle active class
+            header.classList.toggle('active');
+            content.classList.toggle('active');
+          });
+        });
+        
+        // Alt+K shortcut to open search modal
+        document.addEventListener('keydown', function(e) {
+          if (e.altKey && e.key === 'k') {
+            e.preventDefault();
+            openSearchModal();
+          }
+          
+          // Close modal on Escape key
+          if (e.key === 'Escape' && searchModal.classList.contains('active')) {
+            closeSearchModal();
+          }
+        });
+        
+        // Open search modal function
+        function openSearchModal() {
+          searchModal.classList.add('active');
+          setTimeout(() => {
+            modalSearchInput.focus();
+          }, 300);
+          document.body.style.overflow = 'hidden';
+        }
+        
+        // Close search modal function
+        function closeSearchModal() {
+          searchModal.classList.remove('active');
+          document.body.style.overflow = '';
+          modalSearchInput.value = '';
+          searchResults.innerHTML = '';
+          resultCount.textContent = '';
+        }
+        
+        // Close button event
+        closeModalBtn.addEventListener('click', closeSearchModal);
+        
+        // Close modal when clicking outside content
+        searchModal.addEventListener('click', function(e) {
+          if (e.target === searchModal) {
+            closeSearchModal();
+          }
+        });
+        
+        // Modal search functionality
+        modalSearchInput.addEventListener('input', function() {
+          const searchTerm = this.value.toLowerCase().trim();
+          clearTimeout(searchTimeout);
+          searchTimeout = setTimeout(() => {
+            performModalSearch(searchTerm);
+          }, 300);
+        });
+        
+        // In-page search functionality
+        searchInput.addEventListener('input', function() {
+          const searchTerm = this.value.toLowerCase().trim();
+          clearTimeout(searchTimeout);
+          searchTimeout = setTimeout(() => {
+            performInPageSearch(searchTerm);
+          }, 300);
+        });
+        
+        // Click outside to close dropdown
+        document.addEventListener('click', function(e) {
+          if (!searchInput.contains(e.target) && !searchDropdown.contains(e.target)) {
+            searchDropdown.classList.remove('active');
+          }
+        });
+        
+        // Modal search function
+        function performModalSearch(searchTerm) {
+          if (searchTerm === '') {
+            searchResults.innerHTML = '';
+            resultCount.textContent = '';
+            return;
+          }
+          
+          const allSections = document.querySelectorAll('.content-section, .category-section');
+          let matchCount = 0;
+          let searchResultsHTML = '';
+          
+          allSections.forEach(section => {
+            const sectionText = section.textContent.toLowerCase();
+            const searchTerms = section.getAttribute('data-search-terms') || '';
+            const combinedText = (sectionText + ' ' + searchTerms).toLowerCase();
+            
+            if (combinedText.includes(searchTerm)) {
+              matchCount++;
+              
+              const sectionTitle = section.querySelector('h2, h3').textContent;
+              const contextBefore = getContextBefore(section, searchTerm);
+              const contextAfter = getContextAfter(section, searchTerm);
+              
+              searchResultsHTML += `
+                <div class="search-modal-result-item" data-section-id="${section.id}">
+                  <div class="search-modal-result-title">
+                    <i class="fas fa-file-alt"></i> ${sectionTitle}
+                  </div>
+                  <div class="search-modal-result-context">
+                    ${contextBefore}<span class="highlight">${searchTerm}</span>${contextAfter}
+                  </div>
+                </div>
+              `;
+            }
+          });
+          
+          searchResults.innerHTML = searchResultsHTML;
+          resultCount.textContent = `${matchCount} result${matchCount !== 1 ? 's' : ''} found`;
+          
+          // Add click event to result items
+          document.querySelectorAll('.search-modal-result-item').forEach(item => {
+            item.addEventListener('click', function() {
+              const sectionId = this.getAttribute('data-section-id');
+              navigateToSection(sectionId);
+              closeSearchModal();
+            });
+          });
+        }
+        
+        // In-page search function
+        function performInPageSearch(searchTerm) {
+          if (searchTerm === '') {
+            searchDropdown.classList.remove('active');
+            clearHighlights();
+            return;
+          }
+          
+          const allSections = document.querySelectorAll('.content-section, .category-section');
+          let matchCount = 0;
+          let dropdownHTML = '';
+          
+          allSections.forEach(section => {
+            const sectionText = section.textContent.toLowerCase();
+            const searchTerms = section.getAttribute('data-search-terms') || '';
+            const combinedText = (sectionText + ' ' + searchTerms).toLowerCase();
+            
+            if (combinedText.includes(searchTerm)) {
+              matchCount++;
+              
+              const sectionTitle = section.querySelector('h2, h3').textContent;
+              const contextBefore = getContextBefore(section, searchTerm);
+              const contextAfter = getContextAfter(section, searchTerm);
+              
+              dropdownHTML += `
+                <div class="search-result-item" data-section-id="${section.id}">
+                  <div class="search-result-title">${sectionTitle}</div>
+                  <div class="search-result-context">
+                    ${contextBefore}<span class="highlight">${searchTerm}</span>${contextAfter}
+                  </div>
+                </div>
+              `;
+            }
+          });
+          
+          if (matchCount > 0) {
+            searchDropdown.innerHTML = dropdownHTML;
+            searchDropdown.classList.add('active');
+            
+            // Add click event to result items
+            document.querySelectorAll('.search-result-item').forEach(item => {
+              item.addEventListener('click', function() {
+                const sectionId = this.getAttribute('data-section-id');
+                navigateToSection(sectionId);
+                searchDropdown.classList.remove('active');
+                searchInput.value = '';
+              });
+            });
+          } else {
+            searchDropdown.classList.remove('active');
+          }
+        }
+        
+        // Navigate to section function
+        function navigateToSection(sectionId) {
+          const targetSection = document.getElementById(sectionId);
+          
+          if (targetSection) {
+            // Clear existing highlights
+            clearHighlights();
+            
+            // Switch to correct main tab
+            const mainTabContent = targetSection.closest('.main-tab-content');
+            if (mainTabContent) {
+              const mainTabId = mainTabContent.id;
+              const mainTab = document.querySelector(`[data-main-tab="${mainTabId}"]`);
+              if (mainTab && !mainTab.classList.contains('active')) {
+                mainTab.click();
+              }
+              
+              // Switch to correct sub tab if needed
+              const subTabContent = targetSection.closest('.sub-tab-content');
+              if (subTabContent) {
+                const subTabId = subTabContent.id;
+                const subTab = document.querySelector(`[data-sub-tab="${subTabId}"]`);
+                if (subTab && !subTab.classList.contains('active')) {
+                  subTab.click();
+                }
+              }
+            }
+            
+            // Scroll to section with delay to allow tab switching
+            setTimeout(() => {
+              targetSection.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+              });
+              
+              // Highlight the section
+              targetSection.classList.add('search-highlight');
+              setTimeout(() => {
+                targetSection.classList.remove('search-highlight');
+              }, 3000);
+            }, 300);
+          }
+        }
+        
+        // Helper functions
+        function getContextBefore(element, searchTerm) {
+          const text = element.textContent.toLowerCase();
+          const index = text.indexOf(searchTerm);
+          const startIndex = Math.max(0, index - 30);
+          return (startIndex > 0 ? '...' : '') + text.substring(startIndex, index);
+        }
+        
+        function getContextAfter(element, searchTerm) {
+          const text = element.textContent.toLowerCase();
+          const index = text.indexOf(searchTerm);
+          const endIndex = Math.min(text.length, index + searchTerm.length + 30);
+          return text.substring(index + searchTerm.length, endIndex) + (endIndex < text.length ? '...' : '');
+        }
+        
+        function clearHighlights() {
+          const highlights = document.querySelectorAll('.highlight');
+          highlights.forEach(highlight => {
+            const parent = highlight.parentNode;
+            parent.replaceChild(document.createTextNode(highlight.textContent), highlight);
+            parent.normalize();
+          });
+          
+          const highlightedSections = document.querySelectorAll('.search-highlight');
+          highlightedSections.forEach(section => {
+            section.classList.remove('search-highlight');
+          });
+        }
+        
+        // Handle window resize for indicator positioning
+        window.addEventListener('resize', function() {
+          const activeMainTab = document.querySelector('.main-tab.active');
+          if (activeMainTab) {
+            setMainIndicator(activeMainTab);
+          }
+          
+          document.querySelectorAll('.sub-tabs').forEach(subTabContainer => {
+            const activeSubTab = subTabContainer.querySelector('.sub-tab.active');
+            const indicator = subTabContainer.querySelector('.sub-tab-indicator');
+            if (activeSubTab && indicator) {
+              setSubIndicator(activeSubTab, indicator);
+            }
+          });
+        });
+        
+        // Global function for opening search modal (called by Alt+K shortcut)
+        window.openSearchModal = openSearchModal;
+      });
+    </script>
+  </body>
+</html
