@@ -230,7 +230,7 @@
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">
-                    <i class="fas fa-barcode mr-2 text-gray-700"></i>Device Serial Number <span class="text-red-500">*</span>
+                    <i class="fas fa-barcode mr-2 text-gray-700"></i>Device Serial Number
                 </label>
                 <div id="deviceSerialNumbers" class="mt-1 max-h-40 overflow-y-auto border-2 border-gray-300 rounded-md p-2"></div>
                 
@@ -243,7 +243,7 @@
                         <i class="fas fa-plus"></i>
                     </button>
                 </div>
-                <p id="deviceSerialNumbersError" class="text-red-500 text-xs mt-1 hidden">Please select at least one device serial number.</p>
+                <!-- Removed: <p id="deviceSerialNumbersError" class="text-red-500 text-xs mt-1 hidden">Please select at least one device serial number.</p> -->
             </div>
             <div>
                 <label for="trainingType" class="block text-sm font-medium text-gray-700 mb-1">
@@ -390,13 +390,7 @@
             return isValid;
         }
         
-        function validateDeviceSerialNumbers() {
-            const checkboxes = document.querySelectorAll('#deviceSerialNumbers input[type="checkbox"]');
-            const errorElement = document.getElementById('deviceSerialNumbersError');
-            const isValid = Array.from(checkboxes).some(cb => cb.checked);
-            errorElement.classList.toggle('hidden', isValid);
-            return isValid;
-        }
+        // Removed: function validateDeviceSerialNumbers() { ... }
         
         function validateTrainingType() {
             const trainingType = document.getElementById('trainingType');
@@ -424,13 +418,13 @@
         function validateForm() {
             const isHealthcareCentresValid = validateHealthcareCentres();
             const isParticipatingTraineesValid = validateParticipatingTrainees();
-            const isDeviceSerialNumbersValid = validateDeviceSerialNumbers();
+            // Removed: const isDeviceSerialNumbersValid = validateDeviceSerialNumbers();
             const isTrainingTypeValid = validateTrainingType();
             const areDatesValid = validateDates();
             
             return isHealthcareCentresValid && 
                    isParticipatingTraineesValid && 
-                   isDeviceSerialNumbersValid && 
+                   /* isDeviceSerialNumbersValid && */ // This line is commented out/removed
                    isTrainingTypeValid &&
                    areDatesValid;
         }
@@ -498,9 +492,10 @@
         
                 if (fieldId === 'healthcareCentres') {
                     checkbox.addEventListener('change', validateHealthcareCentres);
-                } else if (fieldId === 'deviceSerialNumbers') {
-                    checkbox.addEventListener('change', validateDeviceSerialNumbers);
-                }
+                } 
+                // Removed: else if (fieldId === 'deviceSerialNumbers') {
+                // Removed:     checkbox.addEventListener('change', validateDeviceSerialNumbers);
+                // Removed: }
 
                 var label = document.createElement('label');
                 label.htmlFor = checkbox.id;
@@ -555,7 +550,7 @@
                 checkbox.value = serialNumber;
                 checkbox.className = 'h-5 w-5 text-orange focus:ring-orange border-gray-300 rounded';
                 checkbox.checked = true; // Auto-check the newly added serial number
-                checkbox.addEventListener('change', validateDeviceSerialNumbers);
+                // Removed: checkbox.addEventListener('change', validateDeviceSerialNumbers);
                 
                 const label = document.createElement('label');
                 label.htmlFor = checkbox.id;
@@ -569,7 +564,7 @@
                 deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
                 deleteBtn.addEventListener('click', function() {
                     div.remove();
-                    validateDeviceSerialNumbers();
+                    // Removed: validateDeviceSerialNumbers();
                 });
                 
                 div.appendChild(checkbox);
@@ -578,7 +573,7 @@
                 
                 container.appendChild(div);
                 input.value = ''; // Clear input
-                validateDeviceSerialNumbers();
+                // Removed: validateDeviceSerialNumbers();
             });
             
             // Allow pressing Enter to add serial number
@@ -779,7 +774,7 @@
                                         // Reset error messages
                                         document.getElementById('healthcareCentresError').classList.add('hidden');
                                         document.getElementById('participatingTraineesError').classList.add('hidden');
-                                        document.getElementById('deviceSerialNumbersError').classList.add('hidden');
+                                        // Removed: document.getElementById('deviceSerialNumbersError').classList.add('hidden');
                                         document.getElementById('trainingTypeError').classList.add('hidden');
                                         document.getElementById('startDateError').classList.add('hidden');
                                         document.getElementById('endDateError').classList.add('hidden');
