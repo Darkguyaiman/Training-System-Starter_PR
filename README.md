@@ -324,8 +324,7 @@ Training-System/
 | <img src="https://media.giphy.com/media/26BRuo6sLetdllPAQ/giphy.gif" width="20px"> **Authentication** | Google Workspace Integration |
 | <img src="https://media.giphy.com/media/3oKIPEqDGUULpEU0aQ/giphy.gif" width="20px"> **Data Storage** | Secure Google Sheets |
 | <img src="https://media.giphy.com/media/26tn33aiTi1jkl6H6/giphy.gif" width="20px"> **Access Control** | Role-Based Permissions |
-| <img src="https://media.giphy.com/media/3o7qDEq2bMbcbPRQ2c/giphy.gif" width="20px"> **Data Protection** | Enterprise-Grade Security |
-
+| 
 </div>
 
 <!-- Animated Footer -->
